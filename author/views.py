@@ -1,5 +1,5 @@
-from flask_blog import app
-from flask import render_template, redirect, url_for, session, request, session, abort, flash
+from flask_blog import app, db
+from flask import render_template, redirect, url_for, session, request, abort, flash
 from author.form import RegisterForm, LoginForm
 from author.models import Author
 from author.decorators import login_required
@@ -38,6 +38,17 @@ def login():
 def register():
     form=RegisterForm()
     if form.validate_on_submit():
+        salt = bcrypt.gensalt()
+        hashed_password = bcrypt.hashpw(form.password.data, salt)
+        author=Author(
+            form.fullname.data,
+            form.email.data,
+            form.username.data,
+            hashed_password,
+            False
+            )
+        db.session.add(author)
+        db.session.commit()
         return redirect(url_for('success'))
     return render_template('author/register.html', form=form)
 
