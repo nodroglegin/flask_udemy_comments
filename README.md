@@ -5,7 +5,7 @@
 Added comment functionality.
 
 Step 1: New Model for Commment
-'''
+```
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.Text)
@@ -23,11 +23,11 @@ class Comment(db.Model):
 
     def __repr__(self):
         return self.body
-'''
+```
 
 Step 2. New views code for def article
 
-'''
+```
 @app.route('/article/<slug>', methods=('POST', 'GET'))
 def article(slug):
     form = CommentForm()
@@ -41,11 +41,11 @@ def article(slug):
         db.session.commit()
         return redirect(url_for('article', slug=slug))
     return render_template('blog/article.html', post=post, form=form, comments=comments, slug=slug)
-'''
+```
 
 Step 3. New Article HTML to show existing comments, and form to submit new comments
 
-'''
+```
    <h4>Want to join the conversation?</h4>
 
         {% for comment in comments %}
@@ -67,4 +67,4 @@ Step 3. New Article HTML to show existing comments, and form to submit new comme
         
         <button type="submit" class="btn btn-default">Comment</button>
 
-'''
+```
