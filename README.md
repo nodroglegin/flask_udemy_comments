@@ -4,14 +4,36 @@
 
 Added comment functionality.
 
-Step 1: New Model for Commment
+Step 1: Update register view and set new user is_author to false
+
+```
+@app.route('/register', methods=('GET', 'POST'))
+def register():
+    form=RegisterForm()
+    if form.validate_on_submit():
+        salt = bcrypt.gensalt()
+        hashed_password = bcrypt.hashpw(form.password.data, salt)
+        author=Author(
+            form.fullname.data,
+            form.email.data,
+            form.username.data,
+            hashed_password,
+            False
+            )
+        db.session.add(author)
+        db.session.commit()
+        return redirect(url_for('success'))
+    return render_template('author/register.html', form=form)
+
+```
+
+Step 2: New Model for Commment
 ```
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.Text)
     publish_date = db.Column(db.DateTime)
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
-    
     
     def __init__(self, body, post, publish_date=None):
         self.body = body
@@ -25,7 +47,7 @@ class Comment(db.Model):
         return self.body
 ```
 
-Step 2. New views code for def article
+Step 3. New views code for def article to pick up comments
 
 ```
 @app.route('/article/<slug>', methods=('POST', 'GET'))
@@ -43,10 +65,10 @@ def article(slug):
     return render_template('blog/article.html', post=post, form=form, comments=comments, slug=slug)
 ```
 
-Step 3. New Article HTML to show existing comments, and form to submit new comments
+Step 4. New Article HTML to show existing comments, and form to submit new comments
 
 ```
-   <h4>Want to join the conversation?</h4>
+  <h4>Want to join the conversation? Login</h4>
 
         {% for comment in comments %}
         
@@ -59,12 +81,14 @@ Step 3. New Article HTML to show existing comments, and form to submit new comme
          
         {% endfor %}
         
-        {% from "_formhelpers.html" import render_field %}
-         <form method="POST" action="{{ url_for('article', slug=slug) }}" role="form">
-        {{ form.hidden_tag() }}
-            
-        {{ render_field(form.comment, class='form-control') }}
+        {% if 'username' in session %}
         
-        <button type="submit" class="btn btn-default">Comment</button>
-
+            {% from "_formhelpers.html" import render_field %}
+             <form method="POST" action="{{ url_for('article', slug=slug) }}" role="form">
+            {{ form.hidden_tag() }}
+                
+            {{ render_field(form.comment, class='form-control') }}
+            
+            <button type="submit" class="btn btn-default">Comment</button>
+        {% endif %}
 ```
