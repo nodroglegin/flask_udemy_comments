@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}{% endblock %}</title>
+        
+        <!-- get Bootstrap CSS -->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        
+    </head>
+    
+    <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">tobor</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Blog <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">About</a></li>
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Login</a></li>
+        
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+    
+    <body>
+        <div class="container">
+            {% block content %}{% endblock %}
+            
+            <div class="col-sm-2"></div>
+    
+            <div class="col-sm-8">
+   
+              <hr />
+              <footer>
+                &copy; Copyright 2016
+                {% if session.get('is_author') %} - <a href="{{ url_for('admin') }}">Admin<a/>{% endif %}
+                {% if session.get('username') %} - <a href="{{ url_for('logout') }}">Logout<a/>
+                {% else %} - <a href="{{ url_for('login') }}">Login<a/>
+                {% endif %}
+              </footer>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        
+        <!-- JQuery for bootstrap from jQuery cdn -->
+        <script   src="https://code.jquery.com/jquery-3.0.0.min.js"   integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0="   crossorigin="anonymous"></script>
+        
+        <!-- Bootstrap JS -->
+        <script scr="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        
+    </body>
+</html>
