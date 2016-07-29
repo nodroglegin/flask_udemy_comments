@@ -5,6 +5,7 @@ Final section of https://www.udemy.com/python-flask-course/ by Jorge
 Added comment functionality.
 
 Step 1: New Model for Commment
+
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.Text)
@@ -24,6 +25,7 @@ class Comment(db.Model):
         return self.body
 
 Step 2. New views code for def article
+
 @app.route('/article/<slug>', methods=('POST', 'GET'))
 def article(slug):
     form = CommentForm()
