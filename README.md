@@ -1,6 +1,6 @@
 # flask_udemy_comments
 
-Final section of https://www.udemy.com/python-flask-course/ by Jorge 
+<h4>Final section of https://www.udemy.com/python-flask-course/ by Jorge </h4>
 
 Added comment functionality.
 
